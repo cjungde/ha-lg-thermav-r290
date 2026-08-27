@@ -1,0 +1,11 @@
+{
+  "domain": "lg_thermav_r290",
+  "name": "LG ThermaV R290",
+  "codeowners": ["@cjungde"],
+  "config_flow": true,
+  "documentation": "https://github.com/cjungde/ha-lg-thermav-r290",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/cjungde/ha-lg-thermav-r290/issues",
+  "requirements": ["pymodbus>=3.0.0,<4.0.0"],
+  "version": "0.0.11"
+}
