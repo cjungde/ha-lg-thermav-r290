@@ -69,7 +69,11 @@ _NUMBERS: tuple[LGNumberDescription, ...] = (
         register_address=8,
         name="DHW Target Temperature",
         native_min_value=35,
-        native_max_value=60,
+        # 60 -> 65 am 01.09.2026: Das Geraetemaximum wurde im Installateurs-
+        # menue auf 65 C angehoben. Solange hier 60 stand, lehnte HA jeden
+        # set_value darueber ab - der Legionellenschutz konnte sein Ziel damit
+        # nicht ueber 60 C setzen, obwohl die WP es gekonnt haette.
+        native_max_value=65,
         native_step=1,
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         device_class=NumberDeviceClass.TEMPERATURE,
