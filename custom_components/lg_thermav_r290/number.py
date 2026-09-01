@@ -69,11 +69,19 @@ _NUMBERS: tuple[LGNumberDescription, ...] = (
         register_address=8,
         name="DHW Target Temperature",
         native_min_value=35,
-        # 60 -> 65 am 01.09.2026: Das Geraetemaximum wurde im Installateurs-
-        # menue auf 65 C angehoben. Solange hier 60 stand, lehnte HA jeden
-        # set_value darueber ab - der Legionellenschutz konnte sein Ziel damit
-        # nicht ueber 60 C setzen, obwohl die WP es gekonnt haette.
-        native_max_value=65,
+        # 60 ist die GERAETESEITIGE Grenze dieses Registers, nicht nur eine
+        # Konvention. Am 01.09.2026 kurzzeitig auf 65 angehoben, weil im
+        # Installateursmenue ein Maximum von 65 C eingestellt worden war -
+        # das betrifft aber eine andere Einstellung, nicht Register 8. Der
+        # Schreibversuch mit 62 C wurde von der WP still verworfen: HA
+        # schrieb 62, der naechste Poll 10 s spaeter las wieder 46 zurueck,
+        # und der laufende Legionellenlauf wartete anschliessend vergeblich
+        # auf eine Temperatur, die die WP nie ansteuerte. 60 dagegen wird
+        # uebernommen. Die Grenze hier ist damit ein echter Schutz: Sie
+        # laesst einen Schreibvorgang scheitern, der sonst still ins Leere
+        # laeuft. NICHT anheben, ohne den Ruecklesewert nach einem vollen
+        # Poll-Zyklus zu pruefen.
+        native_max_value=60,
         native_step=1,
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         device_class=NumberDeviceClass.TEMPERATURE,
